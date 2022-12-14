@@ -17,7 +17,7 @@ int T_MY_ADD_FUNCTION()
   int x = 5;
   int y = 4;
   
-  int result = myAddingFunction(x, y);
+  int result = myAddFunction(x, y);
   
   return (result == 9);
 }
@@ -62,6 +62,7 @@ int main()
   
   // Memory cleanup
   delete e;
+  
 }
 
 ```

@@ -25,12 +25,15 @@ all : $(LIB_DIR)/$(LIB_NAME).a
 
 # Object Files
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
+	mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 # Static Library
 $(LIB_DIR)/$(LIB_NAME).a : $(OBJ_FILES)
+	mkdir -p $(LIB_DIR)
 	ar rcs $(LIB_DIR)/$(LIB_NAME).a $(OBJ_FILES)
+	rm -r $(OBJ_DIR)
 
 
 clean :
-	rm -r $(OBJ_DIR)/* $(BIN_DIR)/* $(LIB_DIR)/*
+	rm -r $(LIB_DIR)

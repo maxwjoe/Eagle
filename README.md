@@ -52,8 +52,7 @@ int main()
   e->AddTest(STRING_COL, "Simple Concatenation", &T_MY_CONCAT_FUNCTION);
   e->AddTest(STRING_COL, "Simple Copy", &T_MY_COPY_FUNCTION);
   
-  // Will run all tests across Mathematics and String Operations collections
-  e->RunAll();
+  e->RunAll(); // Will run all tests across all collections
   
   e->RunCollection(MATH_COL) // Runs all functions within the Mathematics collection
   e->RunCollection(STRING_COL) // Runs all functions within the String Operations collection

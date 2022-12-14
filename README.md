@@ -66,6 +66,11 @@ int main()
 
 ```
 
+### Example Output
+
+![image](https://user-images.githubusercontent.com/76637128/207509854-e6040262-daa2-4b4b-b3ff-0999a4b474a2.png)
+
+
 ### Comments
 
 Eagle is still being developed and improved upon.

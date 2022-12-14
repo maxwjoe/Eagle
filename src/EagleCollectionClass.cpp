@@ -1,61 +1,91 @@
-#include <iostream>
 #include "EagleCollectionClass.h"
+#include <iostream>
 
-Collection::Collection(std::string &collectionName)
-    : m_testCount(0), m_numPassed(0), m_numRun(0), m_tests({})
+// Collection::Collection : Default Constructor for Collection Class
+Collection::Collection()
+    : m_collection_name({}), m_tests({}), m_num_tests(0), m_verbose(false)
 {
-    m_name = std::string(collectionName);
 }
 
+// Collection::Collection : Constructor for Collection Class
+Collection::Collection(std::string collection_name)
+    : m_collection_name(collection_name), m_tests({}), m_num_tests(0), m_verbose(false)
+{
+}
+
+// Collection::~Collection : Destructor for Collection Class
 Collection::~Collection() {}
 
-// Collection::addTest : Adds a test to a collection
-void Collection::addTest(std::string &testName, testPtr testFunction)
+// Collection::SetVerbose : Sets verbose output mode
+void Collection::SetVerbose(bool is_verbose)
 {
-    if (testFunction == NULL)
+    if (is_verbose == m_verbose)
     {
-        std::cout << "COLLECTION ADD TEST ERROR : Invalid Test Params" << std::endl;
-        exit(EXIT_FAILURE);
+        return;
     }
 
-    m_tests.push_back(Test(testName, testFunction));
-    m_testCount++;
+    m_verbose = is_verbose;
+
+    for (int i = 0; i < m_num_tests; i++)
+    {
+        m_tests[i].SetVerbose(is_verbose);
+    }
 }
 
-// Collection::runTest : Runs a single test in a collection
-bool Collection::runTest(std::string &testName, bool showOutput)
+// Collection::GetCollectionName : Returns name of collection
+std::string Collection::GetCollectionName()
 {
-    bool hasPassed = false;
-    for (int i = 0; i < m_testCount; i++)
-    {
-        std::string name = m_tests[i].getName();
+    return m_collection_name;
+}
 
-        if (testName == name)
+// Collection::AddTest : Adds a new test to the collection
+void Collection::AddTest(const std::string test_name, const testFuncPtr func)
+{
+    Test newTest(test_name, func);
+    newTest.SetVerbose(m_verbose);
+    m_tests.push_back(newTest);
+    m_num_tests++;
+}
+
+// Collection::RunTest : Runs a single test in collection, returns result (also false if not found)
+bool Collection::RunTest(const std::string test_name)
+{
+    for (int i = 0; i < m_num_tests; i++)
+    {
+        if (m_tests[i].GetTestName() == test_name)
         {
-            hasPassed = m_tests[i].run(showOutput);
+            return m_tests[i].Run();
         }
     }
 
-    return hasPassed;
+    return false;
 }
 
-std::string Collection::getName()
+// Collection::RunAll : Runs all tests in a collection and returns number passed
+int Collection::RunAll()
 {
-    return m_name;
-}
-
-// Collection::runAll : Runs all tests in a collection
-void Collection::runAll(bool showOutput)
-{
-
-    if (showOutput)
+    if (m_num_tests == 0)
     {
-        std::cout << "\n--- Running Collection : " << m_name << " ---\n"
+        std::cout << "\n--- Collection : " << m_collection_name << " IS EMPTY ---\n"
+                  << std::endl;
+        return 0;
+    }
+
+    int pass_count = 0;
+
+    if (m_verbose)
+    {
+        std::cout << "\n--- Running Collection : " << m_collection_name << " ---\n"
                   << std::endl;
     }
 
-    for (int i = 0; i < m_testCount; i++)
+    for (int i = 0; i < m_num_tests; i++)
     {
-        m_tests[i].run(showOutput);
+        pass_count += m_tests[i].Run();
     }
+
+    std::cout << "\n--- " << m_collection_name << " : " << pass_count << " of " << m_num_tests << " Tests Passed ---\n"
+              << std::endl;
+
+    return pass_count;
 }

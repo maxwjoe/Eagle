@@ -2,28 +2,31 @@
 #define EAGLE_TEST_CLASS_H
 
 #include <string>
-#include <vector>
-#include "EagleCommon.h"
+#include "EagleTypes.h"
+
+// === Eagle Test Class : Defines a Test Object ===
+
+// GOAL: See if you can track variable values
 
 class Test
 {
 public:
-    Test(std::string &testName, testPtr testFunction);
-    // Test(Test &) = delete;
+    Test();
+    Test(std::string test_name, testFuncPtr func);
     ~Test();
 
-    // Test::run : Runs test and returns result (Prints result if bool = true)
-    bool run(bool showOutput);
+    std::string GetTestName();
+    void SetVerbose(bool is_verbose);
 
-    // Test::getName : Returns name of test
-    std::string getName();
-
-private:
-    void m_logResult(bool hasPassed, double timeElapsed);
+    bool Run();
 
 private:
-    std::string m_name;
-    testPtr m_pointer;
+    void m_LogResult(const bool &result, const double &time_passed) const;
+
+private:
+    testFuncPtr m_unit_test;
+    std::string m_test_name;
+    bool m_verbose;
 };
 
 #endif

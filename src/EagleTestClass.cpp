@@ -4,13 +4,13 @@
 
 // Test::Test : Default Constructor
 Test::Test()
-    : m_unit_test(nullptr), m_test_name({})
+    : m_unit_test(nullptr), m_test_name({}), m_verbose(false)
 {
 }
 
 // Test::Test : Constructor for Test Class
 Test::Test(std::string test_name, testFuncPtr func)
-    : m_unit_test(func), m_test_name(test_name)
+    : m_unit_test(func), m_test_name(test_name), m_verbose(false)
 {
 }
 

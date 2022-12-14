@@ -19,12 +19,11 @@ void Eagle::SetVerbose(const bool is_verbose)
     {
         return;
     }
-
     m_verbose = is_verbose;
 
     for (int i = 0; i < m_num_collections; i++)
     {
-        m_collections[i].SetVerbose(is_verbose);
+        m_collections[i].SetVerbose(m_verbose);
     }
 }
 
@@ -43,6 +42,7 @@ void Eagle::AddTest(std::string collection_name, std::string test_name, testFunc
     }
 
     Collection new_collection(collection_name);
+    new_collection.SetVerbose(m_verbose);
     new_collection.AddTest(test_name, func);
 
     m_collections.push_back(new_collection);

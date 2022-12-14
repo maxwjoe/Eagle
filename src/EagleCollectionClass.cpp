@@ -42,6 +42,7 @@ std::string Collection::GetCollectionName()
 void Collection::AddTest(const std::string test_name, const testFuncPtr func)
 {
     Test newTest(test_name, func);
+    newTest.SetVerbose(m_verbose);
     m_tests.push_back(newTest);
     m_num_tests++;
 }
@@ -65,7 +66,7 @@ int Collection::RunAll()
 {
     if (m_num_tests == 0)
     {
-        std::cout << "\n=== Collection : " << m_collection_name << " IS EMPTY ===\n"
+        std::cout << "\n--- Collection : " << m_collection_name << " IS EMPTY ---\n"
                   << std::endl;
         return 0;
     }
@@ -74,7 +75,7 @@ int Collection::RunAll()
 
     if (m_verbose)
     {
-        std::cout << "\n=== Running Collection : " << m_collection_name << " ===\n"
+        std::cout << "\n--- Running Collection : " << m_collection_name << " ---\n"
                   << std::endl;
     }
 
@@ -83,7 +84,7 @@ int Collection::RunAll()
         pass_count += m_tests[i].Run();
     }
 
-    std::cout << "\n=== " << m_collection_name << " : " << pass_count << " of " << m_num_tests << " Tests Passed ===\n"
+    std::cout << "\n--- " << m_collection_name << " : " << pass_count << " of " << m_num_tests << " Tests Passed ---\n"
               << std::endl;
 
     return pass_count;

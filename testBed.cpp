@@ -21,7 +21,7 @@ int main()
 
     Eagle *e = new Eagle();
 
-    e->SetVerbose(false);
+    e->SetVerbose(true);
 
     e->AddTest("Examples", "CASE_ONE", &testCaseOne);
     e->AddTest("Examples", "CASE_TWO", &testCaseTwo);

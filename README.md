@@ -54,8 +54,8 @@ int main()
   
   e->RunAll(); // Will run all tests across all collections
   
-  e->RunCollection(MATH_COL) // Runs all functions within the Mathematics collection
-  e->RunCollection(STRING_COL) // Runs all functions within the String Operations collection
+  e->RunCollection(MATH_COL) // Runs all tests within the Mathematics collection
+  e->RunCollection(STRING_COL) // Runs all tests within the String Operations collection
   
   e->RunTest(MATH_COL, "Simple Addition") // Runs only the Simple Addition Test Case
   

@@ -13,11 +13,12 @@ LIB_DIR=../lib
 # === FILES ===
 
 EXAMPLE_NAME=testBed
+EAGLE_LIB_NAME=libEagle
 
 # === RULES ===
 
 $(BIN_DIR)/$(EXAMPLE_NAME) : $(EXAMPLE_NAME).cpp
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/testClass.a
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/$(EAGLE_LIB_NAME).a
 
 clean :
 	rm -r $(BIN_DIR)/*

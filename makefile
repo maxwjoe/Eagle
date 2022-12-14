@@ -1,39 +1,39 @@
-# === Build Test Library ===
 
-# --- Compiler Options ---
+# === COMPILATION OPTIONS ===
 
-CC=g++
+CXX=g++
+CXXFLAGS=
 
-# --- File Options ---
+# === PATHS ===
 
 SRC_DIR=src
-OBJ_DIR=obj
-LIB_DIR=lib
-BUILD_DIR=build
 INCLUDE_DIR=include
+OBJ_DIR=obj
+BIN_DIR=bin
+LIB_DIR=lib
 
-STATIC_LIB_NAME=libEagle
-TEST_EXEC_NAME=test
+TEST_EXE_NAME=testBed
+
+# === FILES ===
 
 SRC_FILES=$(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES=$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
-# === BUILD RULES ===
+# === RULES ===
 
-all : $(LIB_DIR)/$(LIB_EAGLE).a $(BUILD_DIR)/$(TEST_EXEC_NAME)
+all : $(LIB_DIR)/testClass.a $(BIN_DIR)/$(TEST_EXE_NAME)
 
-# Build Objects
+# Object Files
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
+# Static Library
+$(LIB_DIR)/testClass.a : $(OBJ_FILES)
+	ar rcs $(LIB_DIR)/testClass.a $(OBJ_FILES)
 
-# Build Static Library
-$(LIB_DIR)/$(LIB_EAGLE).a : $(OBJ_FILES)
-	ar rcs $(LIB_DIR)/$(STATIC_LIB_NAME).a $(OBJ_FILES)
+# Build Example (Linked against static library)
+$(BIN_DIR)/$(TEST_EXE_NAME) : testBed.cpp
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/testClass.a
 
-# Statically Link Test File
-$(BUILD_DIR)/$(TEST_EXEC_NAME) : main.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/$(STATIC_LIB_NAME).a
-
-clean:
-	rm -r $(OBJ_DIR)/* $(BUILD_DIR)/* $(LIB_DIR)/*
+clean :
+	rm -r $(OBJ_DIR)/* $(BIN_DIR)/* $(LIB_DIR)/%

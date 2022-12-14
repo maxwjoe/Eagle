@@ -1,66 +1,100 @@
-#include <iostream>
 #include "Eagle.h"
+#include <iostream>
 
+// Eagle::Eagle : Constructor for Eagle Class
 Eagle::Eagle()
-    : m_collections({}), m_verbose(false), m_numTests(0), m_numTestsRun(0), m_numTestsPassed(0)
+    : m_collections({}), m_num_collections(0), m_num_tests(0), m_verbose(false)
 {
 }
 
-Eagle::~Eagle() {}
-
-void Eagle::addTest(std::string collectionName, std::string testName, testPtr testFunction)
+// Eagle::~Eagle :: Destructor for Eagle Class
+Eagle::~Eagle()
 {
-    // Check for existing collection, add test to collection if found
-    for (int i = 0; i < m_collections.size(); i++)
+}
+
+// Eagle::SetVerbose : Sets Log Level to Verbose (Detailed) or Simple
+void Eagle::SetVerbose(const bool is_verbose)
+{
+    if (is_verbose == m_verbose)
     {
-        if (m_collections[i].getName() == collectionName)
+        return;
+    }
+
+    m_verbose = is_verbose;
+
+    for (int i = 0; i < m_num_collections; i++)
+    {
+        m_collections[i].SetVerbose(is_verbose);
+    }
+}
+
+// Eagle::AddTest : Adds a new test to a collection
+void Eagle::AddTest(std::string collection_name, std::string test_name, testFuncPtr func)
+{
+    m_num_tests++;
+
+    for (int i = 0; i < m_num_collections; i++)
+    {
+        if (m_collections[i].GetCollectionName() == collection_name)
         {
-            m_collections[i].addTest(testName, testFunction);
+            m_collections[i].AddTest(test_name, func);
             return;
         }
     }
 
-    // Create a new collection and add the test
-    Collection newCollection(collectionName);
-    newCollection.addTest(testName, testFunction);
+    Collection new_collection(collection_name);
+    new_collection.AddTest(test_name, func);
 
-    m_collections.push_back(newCollection);
+    m_collections.push_back(new_collection);
+    m_num_collections++;
 }
 
-void Eagle::runTest(std::string collectionName, std::string testName)
+// Eagle::RunTest : Runs an individual test (Always in verbose mode)
+bool Eagle::RunTest(const std::string collection_name, const std::string test_name)
 {
-    bool hasPassed = false;
-    for (int i = 0; i < m_collections.size(); i++)
+    for (int i = 0; i < m_num_collections; i++)
     {
-        if (m_collections[i].getName() == collectionName)
+        if (m_collections[i].GetCollectionName() == collection_name)
         {
-            hasPassed = m_collections[i].runTest(testName, m_verbose);
-            break;
+            m_collections[i].SetVerbose(true);
+            bool result = m_collections[i].RunTest(test_name);
+            m_collections[i].SetVerbose(m_verbose);
+            return result;
         }
     }
+
+    return false;
 }
 
-void Eagle::verbose(bool value)
+// Eagle::RunCollection : Runs all tests in a given collection
+void Eagle::RunCollection(const std::string collection_name)
 {
-    m_verbose = value;
-}
-
-void Eagle::runCollection(std::string collectionName)
-{
-    for (int i = 0; i < m_collections.size(); i++)
+    for (int i = 0; i < m_num_collections; i++)
     {
-        if (m_collections[i].getName() == collectionName)
+        if (m_collections[i].GetCollectionName() == collection_name)
         {
-            m_collections[i].runAll(m_verbose);
-            break;
+            m_collections[i].RunAll();
+            return;
         }
     }
+
+    std::cout << "\n=== Collection : " << collection_name << " Does Not Exist ===\n"
+              << std::endl;
 }
 
-void Eagle::runAll()
+// Eagle::RunAll : Runs all tests across all collections
+void Eagle::RunAll()
 {
-    for (int i = 0; i < m_collections.size(); i++)
+    int pass_count = 0;
+
+    std::cout << "\n=== RUNNING ALL TESTS ===\n"
+              << std::endl;
+
+    for (int i = 0; i < m_num_collections; i++)
     {
-        m_collections[i].runAll(m_verbose);
+        pass_count += m_collections[i].RunAll();
     }
+
+    std::cout << "\n=== SUMMARY : " << pass_count << " of " << m_num_tests << " Test Cases Passed ===\n"
+              << std::endl;
 }

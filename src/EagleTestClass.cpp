@@ -1,54 +1,64 @@
+#include "EagleTestClass.h"
 #include <iostream>
 #include <chrono>
-#include "EagleTestClass.h"
 
-Test::Test(std::string &testName, testPtr testFunction)
+// Test::Test : Default Constructor
+Test::Test()
+    : m_unit_test(nullptr), m_test_name({})
 {
-    if (testFunction == NULL)
+}
+
+// Test::Test : Constructor for Test Class
+Test::Test(std::string test_name, testFuncPtr func)
+    : m_unit_test(func), m_test_name(test_name)
+{
+}
+
+// Test::~Test : Destructor for Test Class
+Test::~Test() {}
+
+// Test::GetTestName : Returns the name of a test
+std::string Test::GetTestName()
+{
+    return m_test_name;
+}
+
+// Test::SetVerbose : Set verbose value (Detailed test output)
+void Test::SetVerbose(bool is_verbose)
+{
+    m_verbose = is_verbose;
+}
+
+// Test::Run : Runs a test, returns the result
+bool Test::Run()
+{
+    if (!m_unit_test)
     {
-        std::cout << "TEST CREATE ERROR : Invalid Test Params" << std::endl;
-        exit(EXIT_FAILURE);
+        return false;
     }
 
-    m_name = std::string(testName);
-    m_pointer = testFunction;
-};
+    auto start_time = std::chrono::high_resolution_clock::now();
 
-Test::~Test(){};
+    bool result = m_unit_test();
 
-bool Test::run(bool showOutput)
-{
-    auto t1 = std::chrono::high_resolution_clock::now();
-    int result = m_pointer();
-    auto t2 = std::chrono::high_resolution_clock::now();
+    auto end_time = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration<double, std::milli> time_passed = t2 - t1;
-    double timeElapsed = time_passed.count();
+    std::chrono::duration<double, std::milli> time_passed = end_time - start_time;
+    double time_elapsed = time_passed.count();
 
-    if (showOutput)
+    if (m_verbose)
     {
-        m_logResult(result, timeElapsed);
+        m_LogResult(result, time_elapsed);
     }
 
     return result;
-};
-
-std::string Test::getName()
-{
-    return m_name;
 }
 
-void Test::m_logResult(bool hasPassed, double timeElapsed)
+// Test::m_LogResult : Logs test result to console
+void Test::m_LogResult(const bool &result, const double &time_passed) const
 {
 
-    if (hasPassed)
-    {
-        std::cout << "\e[0;32mPASSED\x1b[0m\t";
-    }
-    else
-    {
-        std::cout << "\e[0;31mFAILED\x1b[0m\t";
-    }
+    std::cout << " " << (result ? "\e[0;32mPASSED" : "\e[0;31mFAILED") << "\x1b[0m | ";
 
-    std::cout << m_name << " | ( " << timeElapsed << "ms )" << std::endl;
-};
+    std::cout << m_test_name << " | ( " << time_passed << "ms )" << std::endl;
+}

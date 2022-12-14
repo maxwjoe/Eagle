@@ -2,33 +2,30 @@
 #define EAGLE_COLLECTION_CLASS_H
 
 #include "EagleTestClass.h"
+#include "EagleTypes.h"
+#include <vector>
+#include <string>
 
 class Collection
 {
-
 public:
-    Collection(std::string &collectionName);
-    // Collection(Collection &) = delete;
+    Collection();
+    Collection(std::string collection_name);
     ~Collection();
 
-    // Collection::addTest : Adds a test to a collection
-    void addTest(std::string &testName, testPtr testFunction);
+    int RunAll();
+    bool RunTest(const std::string test_name);
+    void AddTest(const std::string test_name, const testFuncPtr func);
 
-    // Collection::runTest : Runs a single test in a collection
-    bool runTest(std::string &testName, bool showOutput);
-
-    // Collection::runAll : Runs all tests in a collection
-    void runAll(bool showOutput);
-
-    // Collection::getName : Returns name of collection
-    std::string getName();
+    void SetVerbose(bool is_verbose);
+    std::string GetCollectionName();
 
 private:
-    std::string m_name;
-    int m_testCount;
-    int m_numPassed;
-    int m_numRun;
+    std::string m_collection_name;
     std::vector<Test> m_tests;
+
+    int m_num_tests;
+    bool m_verbose;
 };
 
 #endif

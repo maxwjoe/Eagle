@@ -4,64 +4,61 @@
 
 Eagle provides a simple solution for testing C and C++ code. Below is an example of how to use Eagle's API.
 
-### API Usage
+### Example API Usage
 
-#### Creating a Unit Test
+#### Creating Unit Tests
 
-Unit tests must return an integer and take no parameters, an example unit test is shown below.
+Create tests using TEST. Then add any required assertions with CHECK.
 
 ```C++
 
-int T_MY_ADD_FUNCTION()
+TEST(T_MATH_ONE)
 {
-  int x = 5;
-  int y = 4;
+  int sum = 5 + 5;
+  CHECK_EQ(sum, 5);
+}
+
+TEST(T_MATH_TWO)
+{
+  int value = 5;
+  int result = makeSmaller(value);
   
-  int result = myAddFunction(x, y);
+  CHECK_LESS(result, value);
+}
+
+TEST(T_STRING_ONE)
+{
+  MyStringClass s = GetString();
   
-  return (result == 9);
+  CHECK_FALSE((S == NULL));
 }
 
 ```
 
-#### Collections
+#### Running Your Tests
 
-Eagle groups your tests into collections. You then have the option to either run a test individually, run a collection individually, or run all tests.
-Collections are useful as they allow you to test related aspects of your code together, an example is shown below. 
+The following code snippet demonstrates how to run the tests defined above.
 
 ```C++
 
-#define MATH_COL "Mathematics"
-#define STRING_COL "String Operations"
+
 
 int main()
 {
   
-  // Create an eagle testing object
-  Eagle *e = new Eagle();
+  // Runs setup tasks
+  EAGLE_INIT(true);
   
-  // SetVerbose : When true, will show all test details in console upon execution
-  e->SetVerbose(true);
+  // Add tests to a collection (Collection creation is automatic)
+  ADD_TEST(MATH_COLLECTION, T_MATH_ONE);
+  ADD_TEST(MATH_COLLECTION, T_MATH_TWO);
+  ADD_TEST(STRING_COLLECTION, T_STRING_ONE);
   
-  // Add tests, collection creation handled behind the scenes
-  e->AddTest(MATH_COL, "Simple Addition", &T_MY_ADD_FUNCTION);
-  e->AddTest(MATH_COL, "Simple Multiplication", &T_MY_MULT_FUNCTION);
-  e->AddTest(MATH_COL, "Simple Division", &T_MY_DIV_FUNCTION);
-  e->AddTest(MATH_COL, "Simple Subtraction", &T_MY_SUB_FUNCTION);
+  // Run all tests across all collections
+  RUN_ALL_TESTS();
   
-  e->AddTest(STRING_COL, "Simple Concatenation", &T_MY_CONCAT_FUNCTION);
-  e->AddTest(STRING_COL, "Simple Copy", &T_MY_COPY_FUNCTION);
-  
-  e->RunAll(); // Will run all tests across all collections
-  
-  e->RunCollection(MATH_COL) // Runs all tests within the Mathematics collection
-  e->RunCollection(STRING_COL) // Runs all tests within the String Operations collection
-  
-  e->RunTest(MATH_COL, "Simple Addition") // Runs only the Simple Addition Test Case
-  
-  // Memory cleanup
-  delete e;
-  
+  // Cleanup tasks
+  EAGLE_EXIT();
 }
 
 ```

@@ -1,6 +1,8 @@
 #ifndef EAGLE_TYPES_H
 #define EAGLE_TYPES_H
 
-typedef int (*testFuncPtr)(void);
+class Test;
+
+typedef int (*testFuncPtr)(Test *);
 
 #endif

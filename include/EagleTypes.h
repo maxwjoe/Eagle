@@ -3,6 +3,6 @@
 
 class Test;
 
-typedef int (*testFuncPtr)(Test *);
+typedef void (*testFuncPtr)(Test *);
 
 #endif

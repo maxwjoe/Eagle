@@ -10,7 +10,7 @@
 #define EAGLE_EXIT() delete __EAGLE_PTR__
 
 // TEST : Defines a new unit test
-#define TEST(__TEST_NAME__) int __TEST_NAME__(Test *__EAGLE_TEST_CLASS_REFERENCE__)
+#define TEST(__TEST_NAME__) void __TEST_NAME__(Test *__EAGLE_TEST_CLASS_REFERENCE__)
 
 // ADD_TEST : Adds a test of a given name to the given collection
 #define ADD_TEST(__COLLECTION_NAME__, __TEST_NAME__) \
@@ -42,5 +42,20 @@
 
 // RUN_TEST : Runs a single test in a given collection
 #define RUN_TEST(__COLLECTION_NAME__, __TEST_NAME__) __EAGLE_PTR__->RunTest(#__COLLECTION_NAME__, #__TEST_NAME__)
+
+// LOG_GREEN : Logs green text
+#define LOG_GREEN(TEXT) std::cout << "\e[0;32m" << TEXT << "\x1b[0m"
+
+// LOG_RED : Logs red text
+#define LOG_RED(TEXT) std::cout << "\e[0;31m" << TEXT << "\x1b[0m"
+
+// LOG_HEAVY : Logs to the console in bold and underline
+#define LOG_HEAVY(TEXT) std::cout << "\x1B[1m\x1B[4m" << TEXT << "\x1b[0m";
+
+// LOG_GREEN_HEAVY : Logs green text that is both bold and underlined
+#define LOG_GREEN_HEAVY(TEXT) std::cout << "\e[0;32m\x1B[1m\x1B[4m" << TEXT << "\x1b[0m"
+
+// LOG_RED_HEAVY : Logs red text that is both bold and underlined
+#define LOG_RED_HEAVY(TEXT) std::cout << "\e[0;31m\x1B[1m\x1B[4m" << TEXT << "\x1b[0m"
 
 #endif

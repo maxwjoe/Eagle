@@ -32,6 +32,7 @@ public:
 
 private:
     void m_LogResult(const bool &result, const double &time_passed) const;
+    void m_LogConditions() const;
 
 private:
     testFuncPtr m_unit_test;

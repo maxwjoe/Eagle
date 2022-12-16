@@ -12,8 +12,8 @@ int main()
 
     // === Add Tests ===
     ADD_TEST(SIMPLE_MATHS, T_MY_ADDER);
-    ADD_TEST(SIMPLE_MATHS, T_MY_MULTI);
     ADD_TEST(SIMPLE_MATHS, T_MY_EQUAL);
+    ADD_TEST(SIMPLE_MATHS, T_MY_MULTI);
 
     // === RUN ===
     RUN_ALL_TESTS();

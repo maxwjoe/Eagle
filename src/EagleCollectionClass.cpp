@@ -1,4 +1,5 @@
 #include "EagleCollectionClass.h"
+#include "EagleMacros.h"
 #include <iostream>
 
 // Collection::Collection : Default Constructor for Collection Class
@@ -75,7 +76,9 @@ int Collection::RunAll()
 
     if (m_verbose)
     {
-        std::cout << "\n--- Running Collection : " << m_collection_name << " ---\n"
+        LOG_HEAVY("\n COLLECTION : ");
+        LOG_HEAVY(m_collection_name);
+        std::cout << "\n"
                   << std::endl;
     }
 
@@ -84,8 +87,12 @@ int Collection::RunAll()
         pass_count += m_tests[i].Run();
     }
 
-    std::cout << "\n--- " << m_collection_name << " : " << pass_count << " of " << m_num_tests << " Tests Passed ---\n"
-              << std::endl;
+    LOG_HEAVY("\n COLLECTION SUMMARY : ");
+    LOG_HEAVY(pass_count);
+    LOG_HEAVY(" OF ");
+    LOG_HEAVY(m_num_tests);
+    LOG_HEAVY(" TESTS PASSED\n");
+    std::cout << std::endl;
 
     return pass_count;
 }

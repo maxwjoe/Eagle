@@ -1,4 +1,5 @@
 #include "EagleTestClass.h"
+#include "EagleMacros.h"
 #include <iostream>
 #include <chrono>
 
@@ -45,7 +46,7 @@ bool Test::Run()
 
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    bool result = m_unit_test(this);
+    m_unit_test(this);
 
     auto end_time = std::chrono::high_resolution_clock::now();
 
@@ -53,19 +54,45 @@ bool Test::Run()
     double time_elapsed = time_passed.count();
 
     // Check all conditions against condition table
-    for (int i = 0; i < m_condition_table.size(); i++)
+    bool result = true;
+    size_t condition_count = m_condition_table.size();
+
+    for (int i = 0; i < condition_count; i++)
     {
         if (!m_condition_table[i].value)
         {
-            // TODO: Change to a logging function
-            std::cout << "CONDITION FAILED : " << m_condition_table[i].description << std::endl;
             result = false;
+            break;
         }
     }
 
     if (m_verbose)
     {
         m_LogResult(result, time_elapsed);
+
+        // Print Failed Conditions
+        if (!result)
+        {
+            std::cout << "\n ==================================" << std::endl;
+            std::cout << "\n Condition Summary For Failed Test :\n"
+                      << std::endl;
+            for (int i = 0; i < condition_count; i++)
+            {
+                std::cout << "   ";
+                if (!m_condition_table[i].value)
+                {
+                    LOG_RED("FAIL");
+                }
+                else
+                {
+                    LOG_GREEN("PASS");
+                }
+                std::cout << " | " << i + 1 << ". " << m_condition_table[i].description << std::endl;
+            }
+            std::cout << std::endl;
+            std::cout << " ==================================\n"
+                      << std::endl;
+        }
     }
 
     return result;
@@ -74,8 +101,16 @@ bool Test::Run()
 // Test::m_LogResult : Logs test result to console
 void Test::m_LogResult(const bool &result, const double &time_passed) const
 {
+    std::cout << " ";
 
-    std::cout << " " << (result ? "\e[0;32mPASSED" : "\e[0;31mFAILED") << "\x1b[0m | ";
+    if (result)
+    {
+        LOG_GREEN("PASSED");
+    }
+    else
+    {
+        LOG_RED("FAILED");
+    }
 
-    std::cout << m_test_name << " | ( " << time_passed << "ms )" << std::endl;
+    std::cout << " | " << m_test_name << " | ( " << time_passed << "ms )" << std::endl;
 }

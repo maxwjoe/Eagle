@@ -6,7 +6,9 @@ TEST(T_MY_ADDER)
     int a = 5;
     int b = 4;
 
-    return myAdder(a, b) == 9;
+    int result = myAdder(a, b);
+
+    CHECK_EQ(result, 9);
 }
 
 TEST(T_MY_MULTI)
@@ -14,7 +16,8 @@ TEST(T_MY_MULTI)
     int a = 5;
     int b = 4;
 
-    return myMulti(a, b) == 20;
+    int result = myMulti(a, b);
+    CHECK_EQ(result, 20);
 }
 
 TEST(T_MY_EQUAL)
@@ -23,11 +26,7 @@ TEST(T_MY_EQUAL)
     int b = 4;
 
     CHECK_EQ(a, 67);
-    CHECK_FALSE((5 == 5));
     CHECK_NEQ(a, 67);
-    CHECK_NEQ(a, 5);
     CHECK_GREATER(a, b);
     CHECK_GREATER(b, a);
-
-    return myIsEqual(a, b) == false;
 }

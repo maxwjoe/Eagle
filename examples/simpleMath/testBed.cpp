@@ -18,5 +18,5 @@ int main()
     // === RUN ===
     RUN_ALL_TESTS();
 
-    EAGLE_EXIT;
+    EAGLE_EXIT();
 }

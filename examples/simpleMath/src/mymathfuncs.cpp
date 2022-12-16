@@ -1,16 +1,16 @@
 #include "mymathfuncs.h"
 
-int myAdder(int a, int b)
+int addition(int a, int b)
 {
     return a + b;
 }
 
-int myMulti(int a, int b)
+int multiplication(int a, int b)
 {
     return a * b;
 }
 
-bool myIsEqual(int a, int b)
+bool division(int a, int b)
 {
     return a == b;
 }

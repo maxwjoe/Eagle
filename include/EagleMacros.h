@@ -1,6 +1,8 @@
 #ifndef EAGLE_MACROS_H
 #define EAGLE_MACROS_H
 
+// === ABSTRACTION MACROS ===
+
 // EAGLE_INIT : Performs all setup tasks
 #define EAGLE_INIT(__VERBOSE__)         \
     Eagle *__EAGLE_PTR__ = new Eagle(); \
@@ -22,6 +24,8 @@
 // RUN_COLLECTION : Runs a given collection
 #define RUN_COLLECTION(__COLLECTION_NAME__) __EAGLE_PTR__->RunCollection(#__COLLECTION_NAME__)
 
+// === ASSERTION MACROS ===
+
 // CHECK_TRUE : Checks if the given condition is true
 #define CHECK_TRUE(__BOOLEAN_EXPRESSION__) __EAGLE_TEST_CLASS_REFERENCE__->SetCondition(#__BOOLEAN_EXPRESSION__, __BOOLEAN_EXPRESSION__)
 
@@ -42,6 +46,8 @@
 
 // RUN_TEST : Runs a single test in a given collection
 #define RUN_TEST(__COLLECTION_NAME__, __TEST_NAME__) __EAGLE_PTR__->RunTest(#__COLLECTION_NAME__, #__TEST_NAME__)
+
+// === LOG MACROS ===
 
 // LOG_GREEN : Logs green text
 #define LOG_GREEN(TEXT) std::cout << "\e[0;32m" << TEXT << "\x1b[0m"

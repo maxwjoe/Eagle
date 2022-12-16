@@ -68,12 +68,13 @@ bool Test::Run()
 
     if (m_verbose)
     {
-        m_LogResult(result, time_elapsed);
 
         // Print Failed Conditions
         if (!result)
         {
-            std::cout << "\n ==================================" << std::endl;
+            std::cout << "\n ==================================\n"
+                      << std::endl;
+            m_LogResult(result, time_elapsed);
             std::cout << "\n Condition Summary For Failed Test :\n"
                       << std::endl;
             for (int i = 0; i < condition_count; i++)
@@ -92,6 +93,10 @@ bool Test::Run()
             std::cout << std::endl;
             std::cout << " ==================================\n"
                       << std::endl;
+        }
+        else
+        {
+            m_LogResult(result, time_elapsed);
         }
     }
 

@@ -4,13 +4,13 @@
 
 // Test::Test : Default Constructor
 Test::Test()
-    : m_unit_test(nullptr), m_test_name({}), m_verbose(false)
+    : m_unit_test(nullptr), m_test_name({}), m_condition_table({}), m_verbose(false)
 {
 }
 
 // Test::Test : Constructor for Test Class
 Test::Test(std::string test_name, testFuncPtr func)
-    : m_unit_test(func), m_test_name(test_name), m_verbose(false)
+    : m_unit_test(func), m_test_name(test_name), m_condition_table({}), m_verbose(false)
 {
 }
 
@@ -29,6 +29,12 @@ void Test::SetVerbose(bool is_verbose)
     m_verbose = is_verbose;
 }
 
+// Test::SetCondition : Sets a condition into the condition table
+void Test::SetCondition(std::string condition_name, bool condition_value)
+{
+    m_condition_table.push_back({condition_name, condition_value});
+}
+
 // Test::Run : Runs a test, returns the result
 bool Test::Run()
 {
@@ -39,12 +45,23 @@ bool Test::Run()
 
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    bool result = m_unit_test();
+    bool result = m_unit_test(this);
 
     auto end_time = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double, std::milli> time_passed = end_time - start_time;
     double time_elapsed = time_passed.count();
+
+    // Check all conditions against condition table
+    for (int i = 0; i < m_condition_table.size(); i++)
+    {
+        if (!m_condition_table[i].value)
+        {
+            // TODO: Change to a logging function
+            std::cout << "CONDITION FAILED : " << m_condition_table[i].description << std::endl;
+            result = false;
+        }
+    }
 
     if (m_verbose)
     {

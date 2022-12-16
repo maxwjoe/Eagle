@@ -1,0 +1,20 @@
+Macro : EAGLE_INIT(__VERBOSE__)
+Function : Performs all necessary setup for eagle testing framework
+
+Desired API :
+
+int main()
+{
+
+    EAGLE_INIT(true);
+
+    // Code
+
+}
+
+
+Desired Result :
+
+Calls :
+    Eagle *e = new Eagle();
+    e->SetVerbose(__VERBOSE__);

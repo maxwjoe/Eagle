@@ -8,17 +8,15 @@
 int main()
 {
     // === SETUP ===
-    Eagle *e = new Eagle();
-
-    e->SetVerbose(true);
+    EAGLE_INIT(true);
 
     // === Add Tests ===
-    e->AddTest(MATH_COL, "Addition", &T_MY_ADDER);
-    e->AddTest(MATH_COL, "Multiplication", &T_MY_MULT);
-    e->AddTest(MATH_COL, "Equality", &T_MY_EQUAL);
+    ADD_TEST(SIMPLE_MATHS, T_MY_ADDER);
+    ADD_TEST(SIMPLE_MATHS, T_MY_MULTI);
+    ADD_TEST(SIMPLE_MATHS, T_MY_EQUAL);
 
     // === RUN ===
-    e->RunAll();
+    RUN_ALL_TESTS();
 
-    delete e;
+    EAGLE_EXIT;
 }

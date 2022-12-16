@@ -1,0 +1,37 @@
+Macro : VERIFY_EQ
+Function : Verifies if a variable is equal to a given value
+
+Desired API :
+
+TEST(COLLECTION_NAME, TEST_NAME)
+{
+    // Some logic resulting in variable X
+
+    VERIFY_EQ(X, 5);
+
+    // Rest of test
+}
+
+// Desired Result :
+
+Will fail the test is X != 5, otherwise will do nothing
+
+
+
+// So
+
+// This macro just defines the new header [ int NAME(Test &__EAGLE_TEST_CLASS_REFERENCE__) ]
+TEST(NAME)
+{
+
+}
+
+// This function pointer will be accessed inside the Test class 
+int (*funcPtr)(Test&)
+
+// Inside the Test.Run() => We can pass "this" as a reference to the function
+
+Run => m_unit_test(this);
+
+// This will allow us to modify the Test class while running the test
+Makes things such as VERIFY_EQ() possible as they can call __EAGLE_TEST_CLASS_REFERENCE__.SomeFunction()

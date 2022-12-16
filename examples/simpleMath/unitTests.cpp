@@ -1,6 +1,7 @@
 #include "mymathfuncs.h"
+#include "iostream"
 
-int T_MY_ADDER()
+TEST(T_MY_ADDER)
 {
     int a = 5;
     int b = 4;
@@ -8,7 +9,7 @@ int T_MY_ADDER()
     return myAdder(a, b) == 9;
 }
 
-int T_MY_MULT()
+TEST(T_MY_MULTI)
 {
     int a = 5;
     int b = 4;
@@ -16,10 +17,17 @@ int T_MY_MULT()
     return myMulti(a, b) == 20;
 }
 
-int T_MY_EQUAL()
+TEST(T_MY_EQUAL)
 {
     int a = 5;
     int b = 4;
+
+    CHECK_EQ(a, 67);
+    CHECK_FALSE((5 == 5));
+    CHECK_NEQ(a, 67);
+    CHECK_NEQ(a, 5);
+    CHECK_GREATER(a, b);
+    CHECK_GREATER(b, a);
 
     return myIsEqual(a, b) == false;
 }

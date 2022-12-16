@@ -3,6 +3,7 @@
 
 #include "EagleCollectionClass.h"
 #include "EagleTypes.h"
+#include "EagleMacros.h"
 #include <vector>
 #include <string>
 

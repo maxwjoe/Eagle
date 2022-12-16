@@ -28,7 +28,7 @@ TEST(T_MATH_TWO)
 
 TEST(T_STRING_ONE)
 {
-  MyStringClass s = GetString();
+  MyStringClass S = GetString();
   
   CHECK_FALSE((S == NULL));
 }

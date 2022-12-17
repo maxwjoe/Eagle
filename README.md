@@ -1,4 +1,4 @@
-# Eagle : Simple C/C++ Testing
+# Eagle : Simple C/C++ Unit Testing
 
 ## About
 

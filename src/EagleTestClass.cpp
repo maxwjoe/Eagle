@@ -1,6 +1,7 @@
 #include "EagleTestClass.h"
 #include "EagleMacros.h"
 #include <iostream>
+#include <thread>
 #include <chrono>
 
 // Test::Test : Default Constructor
@@ -44,6 +45,9 @@ bool Test::Run()
         return false;
     }
 
+    // --- Run and time the test ---
+    bool result = true;
+
     auto start_time = std::chrono::high_resolution_clock::now();
 
     m_unit_test(this);
@@ -53,8 +57,7 @@ bool Test::Run()
     std::chrono::duration<double, std::milli> time_passed = end_time - start_time;
     double time_elapsed = time_passed.count();
 
-    // Check all conditions against condition table
-    bool result = true;
+    // --- Check all conditions in condition table are true ---
     size_t condition_count = m_condition_table.size();
 
     for (int i = 0; i < condition_count; i++)
@@ -66,6 +69,7 @@ bool Test::Run()
         }
     }
 
+    // --- Show output ---
     if (m_verbose)
     {
 

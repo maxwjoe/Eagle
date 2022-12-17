@@ -32,13 +32,13 @@ public:
 
 private:
     void m_LogResult(const bool &result, const double &time_passed) const;
-    void m_LogConditions() const;
 
 private:
     testFuncPtr m_unit_test;
     std::string m_test_name;
     std::vector<Condition> m_condition_table;
     bool m_verbose;
+    int m_timeout_seconds;
 };
 
 #endif

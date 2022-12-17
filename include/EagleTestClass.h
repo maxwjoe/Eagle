@@ -14,8 +14,6 @@ struct Condition
 
 // === Eagle Test Class : Defines a Test Object ===
 
-// GOAL: See if you can track variable values
-
 class Test
 {
 public:

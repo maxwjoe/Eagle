@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
+#include "time.h"
 
 typedef struct eagle
 {
@@ -62,6 +63,8 @@ int EagleRunCollection(Eagle e, char *collection_name)
         return 0;
     }
 
+    EagleSetVerbose(e, e->is_verbose);
+
     // Find tgtCollection
     Collection tgtCollection = NULL;
 
@@ -82,7 +85,21 @@ int EagleRunCollection(Eagle e, char *collection_name)
         return 0;
     }
 
-    CollectionRun(tgtCollection);
+    // Run Collection
+
+    time_t t;
+    time(&t);
+
+    printf("\n ===== Running Collection =====\n\n");
+    printf(" Name : %s\n", CollectionGetName(tgtCollection));
+    printf(" Time : %s\n", ctime(&t));
+
+    int pass_count = CollectionRun(tgtCollection);
+
+    int test_count = CollectionGetTestCount(tgtCollection);
+    printf("\n Summary : %d out of %d tests passed\n\n", pass_count, test_count);
+
+    printf(" ===== End Of Collection =====\n\n");
 
     return 1;
 }
@@ -94,10 +111,29 @@ int EagleRunAll(Eagle e)
         return 0;
     }
 
+    EagleSetVerbose(e, e->is_verbose);
+
+    time_t t;
+    time(&t);
+
+    printf("\n ===== Running All Tests =====\n\n");
+    printf(" Time : %s\n", ctime(&t));
+
+    int total_tests = 0;
+    int total_passed = 0;
     for (int i = 0; i < e->collection_count; i++)
     {
-        CollectionRun(e->collections[i]);
+        printf("\n Collection : %s\n\n", CollectionGetName(e->collections[i]));
+        int test_count = CollectionGetTestCount(e->collections[i]);
+        int pass_count = CollectionRun(e->collections[i]);
+        printf("\n Summary : %d of %d tests passed\n", pass_count, test_count);
+
+        total_passed += pass_count;
+        total_tests += test_count;
     }
+
+    printf("\n Final Summary : %d of %d tests passed\n", total_passed, total_tests);
+    printf("\n ===== End All Tests =====\n\n");
 
     return 1;
 }

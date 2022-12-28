@@ -10,7 +10,7 @@
 #define EAGLE_INIT() Eagle __EAGLE_PTR__ = EagleNew()
 
 // EAGLE_SET_VERBOSE : Sets whether output is detailed or not
-#define EAGLE_SET_VERBOSE(__IS_VERBOSE__) = EagleSetVerbose(__EAGLE_PTR__, __IS_VERBOSE__)
+#define EAGLE_SET_VERBOSE(__IS_VERBOSE__) EagleSetVerbose(__EAGLE_PTR__, __IS_VERBOSE__)
 
 // TEST : Create a new unit test
 #define TEST(__TEST_NAME__) void __TEST_NAME__(Test __EAGLE_TEST_ADT_PTR__)

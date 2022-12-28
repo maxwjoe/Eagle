@@ -1,7 +1,7 @@
 
 # === COMPILATION OPTIONS ===
 
-CXX=g++
+CXX=gcc
 CXXFLAGS=
 
 # === PATHS ===

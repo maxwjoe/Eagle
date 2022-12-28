@@ -1,14 +1,15 @@
 #include "EagleCondition.h"
 #include "stdlib.h"
 #include "string.h"
+#include "EagleLog.h"
 
 typedef struct condition
 {
-    const char *name;
+    char *name;
     int condition_value;
 } *Condition;
 
-Condition ConditionNew(const char *condition_name, int condition_value)
+Condition ConditionNew(char *condition_name, int condition_value)
 {
     if (condition_name == NULL)
     {
@@ -23,7 +24,7 @@ Condition ConditionNew(const char *condition_name, int condition_value)
     }
 
     size_t name_length = strlen(condition_name);
-    c->name = (const char *)malloc(sizeof(char) * name_length);
+    c->name = (char *)calloc(name_length + 1, sizeof(char));
 
     if (c->name == NULL)
     {
@@ -44,6 +45,25 @@ int ConditionGetValue(Condition c)
     }
 
     return c->condition_value;
+}
+
+void ConditionLog(Condition c)
+{
+    if (c == NULL)
+    {
+        return;
+    }
+
+    if (c->condition_value == 1)
+    {
+        LOG_GREEN("PASS");
+    }
+    else
+    {
+        LOG_RED("FAIL");
+    }
+
+    printf(" | %s\n", c->name);
 }
 
 int ConditionFree(Condition c)

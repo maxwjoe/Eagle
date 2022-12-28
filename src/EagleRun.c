@@ -14,6 +14,7 @@ int main()
 
     Test t = TestNew("T_TEST_CREATE", &T_TEST);
     TestSetCondition(t, ConditionNew("TRUE_CONDITION", 1));
+    TestSetCondition(t, ConditionNew("FALSE_CONDITION", 0));
 
     TestRun(t);
 

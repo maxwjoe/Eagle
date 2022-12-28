@@ -2,10 +2,14 @@
 #include "stdlib.h"
 #include "string.h"
 #include "time.h"
+#include "EagleLog.h"
+
+// s_logResult : Log a test outcome to the console
+static void s_logResult(Test t, int result, double duration);
 
 typedef struct test
 {
-    const char *name;
+    char *name;
     int is_verbose;
     int condition_count;
     int condition_capacity;
@@ -13,7 +17,7 @@ typedef struct test
     Condition *condition_table;
 } *Test;
 
-Test TestNew(const char *name, unitTestPtr test)
+Test TestNew(char *name, unitTestPtr test)
 {
     if (name == NULL || test == NULL)
     {
@@ -33,7 +37,7 @@ Test TestNew(const char *name, unitTestPtr test)
     t->condition_capacity = DEFAULT_CONDITION_TABLE_CAPACITY;
 
     size_t name_length = strlen(name);
-    t->name = (const char *)malloc(sizeof(char) * name_length);
+    t->name = (char *)calloc(name_length + 1, sizeof(char));
 
     if (t->name == NULL)
     {
@@ -67,6 +71,7 @@ int TestRun(Test t)
     t->unit_test(t);
     clock_t t1 = clock();
     double duration = (t1 - t0) / CLOCKS_PER_SEC;
+    duration++;
 
     // Validate Condition Table
     int hasPassed = 1;
@@ -76,6 +81,29 @@ int TestRun(Test t)
         {
             hasPassed = 0;
             break;
+        }
+    }
+
+    // Print Result
+    if (t->is_verbose)
+    {
+        if (hasPassed)
+        {
+            s_logResult(t, hasPassed, duration);
+        }
+        else
+        {
+            printf("\n ==================================\n\n");
+            s_logResult(t, hasPassed, duration);
+            printf("\n");
+
+            for (int i = 0; i < t->condition_count; i++)
+            {
+                ConditionLog(t->condition_table[i]);
+            }
+
+            printf("\n");
+            printf("\n ==================================\n\n");
         }
     }
 
@@ -137,4 +165,17 @@ int TestFree(Test t)
     free(t);
 
     return 1;
+}
+
+static void s_logResult(Test t, int result, double duration)
+{
+    if (result)
+    {
+        LOG_GREEN("PASSED")
+    }
+    else
+    {
+        LOG_RED("FAILED");
+    }
+    printf(" | %s | ( %fms )\n", t->name, duration);
 }

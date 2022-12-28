@@ -1,39 +1,40 @@
+# === COMPILER OPTIONS ===
 
-# === COMPILATION OPTIONS ===
-
-CXX=gcc
-CXXFLAGS=
+CC=gcc
+CFLAGS=-Wall -Werror -g -fsanitize=address,leak,undefined
 
 # === PATHS ===
 
 SRC_DIR=src
-INCLUDE_DIR=include
 OBJ_DIR=obj
-BIN_DIR=bin
 LIB_DIR=lib
+INCLUDE_DIR=include
+BIN_DIR=bin
 
 # === FILES ===
 
-SRC_FILES=$(wildcard $(SRC_DIR)/*.cpp)
-OBJ_FILES=$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
-LIB_NAME=libEagle
+EXAMPLE_EXEC = example
+EXAMPLE_SRC = $(SRC_DIR)/EagleTest.c
+STATIC_LIB_NAME = libEagle
 
 # === RULES ===
 
-all : $(LIB_DIR)/$(LIB_NAME).a
+all : $(LIB_DIR)/$(STATIC_LIB_NAME).a $(BIN_DIR)/$(EXAMPLE_EXEC)
 
-# Object Files
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
+# Build Objects
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-# Static Library
-$(LIB_DIR)/$(LIB_NAME).a : $(OBJ_FILES)
+# Build Static Library
+$(LIB_DIR)/$(STATIC_LIB_NAME).a : $(OBJ_FILES)
 	mkdir -p $(LIB_DIR)
-	ar rcs $(LIB_DIR)/$(LIB_NAME).a $(OBJ_FILES)
-	rm -r $(OBJ_DIR)
+	ar rcs $(LIB_DIR)/$(STATIC_LIB_NAME).a $(OBJ_FILES)
 
-
-clean :
-	rm -r $(LIB_DIR)
+# Example Executable
+$(BIN_DIR)/$(EXAMPLE_EXEC) : $(EXAMPLE_SRC)
+	mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/$(STATIC_LIB_NAME).a

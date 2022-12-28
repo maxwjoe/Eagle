@@ -5,10 +5,13 @@
 typedef struct condition *Condition;
 
 // ConditionNew : Creates a new condition
-Condition ConditionNew(const char *condition_name, int condition_value);
+Condition ConditionNew(char *condition_name, int condition_value);
 
 // ConditionGetValue : Returns the value of a condition
 int ConditionGetValue(Condition c);
+
+// ConditionLog : Logs a condition to the console
+void ConditionLog(Condition c);
 
 // ConditionFree : Frees a condition
 int ConditionFree(Condition c);

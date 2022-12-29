@@ -27,7 +27,7 @@ Collection CollectionNew(char *collection_name)
 
     // Copy collection_name into the name buffer
     size_t name_length = strlen(collection_name);
-    c->name = (char *)calloc(name_length, sizeof(char));
+    c->name = (char *)calloc(name_length + 1, sizeof(char));
 
     if (c->name == NULL)
     {
@@ -122,6 +122,16 @@ int CollectionSetVerbose(Collection c, int is_verbose)
     }
 
     return 1;
+}
+
+char *CollectionGetName(Collection c)
+{
+    if (c == NULL)
+    {
+        return NULL;
+    }
+
+    return c->name;
 }
 
 int CollectionFree(Collection c)

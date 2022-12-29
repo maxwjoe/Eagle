@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "EagleCollection.h"
+#include "Eagle.h"
 
 void T_TEST(Test t)
 {
@@ -13,18 +13,15 @@ void T_TEST(Test t)
 
 int main()
 {
+    Eagle e = EagleNew();
 
-    Collection myCollection = CollectionNew("C_COLLECTION");
-    CollectionSetVerbose(myCollection, 1);
+    EagleAddCollection(e, "COL_ONE");
+    EagleAddTest(e, "COL_ONE", "T_TEST", &T_TEST);
+    EagleAddTest(e, "COL_TWO", "T_TESTT", &T_TEST);
 
-    CollectionAddTest(myCollection, TestNew("T_BASIC", &T_TEST));
-    CollectionAddTest(myCollection, TestNew("T_BASI", &T_TEST));
-    CollectionAddTest(myCollection, TestNew("T_BASIiC", &T_TEST));
-    CollectionAddTest(myCollection, TestNew("T_BASICii", &T_TEST));
+    EagleRunAll(e);
 
-    CollectionRun(myCollection);
-
-    CollectionFree(myCollection);
+    EagleFree(e);
 
     return 0;
 }

@@ -41,7 +41,9 @@ TEST(T_FAIL)
     int a = 5;
     a++;
 
-    CHECK_TRUE(a == 5);
+    CHECK_TRUE(a > 0);
+    CHECK_FALSE(a % 5 == 1);
+    CHECK_EQ(a, 6);
 }
 ```
 
@@ -108,7 +110,24 @@ int main()
 }
 ```
 
-The above snippet has two collections, "COLLECTION_ONE" and "COLLECTION_TWO". The function RUN_COLLECTION(CollectionName) is called on COLLECTION_TWO. This will run all unit tests in COLLECTION_TWO, in this case T_FOU and T_FIV. If you wanted to run all tests across all collections you could simply just call RUN_ALL(). 
+The above snippet has two collections, "COLLECTION_ONE" and "COLLECTION_TWO". The function RUN_COLLECTION(CollectionName) is called on COLLECTION_TWO. This will run all unit tests in COLLECTION_TWO, in this case T_FOU and T_FIV. If you wanted to run all tests across all collections you could simply just call RUN_ALL().
+
+## Console Output
+
+Eagle allows you to control the level of output you see in the console. If you want to see the result of every individual test you can set the verbose variable to true (this is on by default). If you only want to see a summary of all tests at the end, then you can set this to false. This is done through the EAGLE_SET_VERBOSE(0) Macro. Ideally, you should call this after calling EAGLE_INIT() in your main function. 
+
+An example verbose output for running the SIMPLE_MATH collection can be seen below.
+
+![image](https://user-images.githubusercontent.com/76637128/210017352-bc61a2a2-7bfd-4380-94a8-139cc702c205.png)
+
+Note that each failed test has a condition breakdown where all set conditions inside the unit test are displayed with their status, either pass or fail. In this case (a % 5 == 1) happens to be true, meaning that the assertion that its false will fail. Showing this breakdown in combination with the passed conditions can make debugging your code easier. If you wish to hide these outputs, call EAGLE_SET_VERBOSE(0) inside of main(), this will generate the following simple output for the same collection of tests
+
+![image](https://user-images.githubusercontent.com/76637128/210017801-d7330235-fb74-4483-b0b2-c5220ba85c01.png)
+
+## Future Features
+
+1. Test timeouts
+
 
 
 

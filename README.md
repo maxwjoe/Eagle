@@ -2,145 +2,113 @@
 
 ## About
 
-Eagle provides a simple solution for testing C and C++ code.
+Eagle provides a simple solution for unit testing both C and C++ code. It is written entirely in C and has no dependencies outside of the C standard library. Eagle features an easy to use API and a minimal setup process making it quick and easy to test either C or C++.
 
-## Example API Usage
+## Setup
 
-### Writing Unit Tests
+To use Eagle you must include "Eagle.h". Ensure that you have built the library, this can be done by simply typing "make" in the root of this repository after cloning which will generate a Library that you can link against.
 
-Create tests using TEST, pass the test name as a parameter and define the logic within the curly braces. Below is an example on how to use the 
-TEST API to declare your unit tests. Notice that all assertions are handled using built in macros.
+## Writing a Unit Test
 
-**Assertion Macro Definitions**
-* CHECK_EQ(A, B) : Checks if A and B are the same
-* CHECK_NEQ(A, B) : Checks if A is not Equal to B
-* CHECK_TRUE(A) : Checks if Expression A is True
-* CHECK_FALSE(A) : Checks if Expression A is False
-* CHECK_GREATER(A, B) : Checks if A is strictly greater than B
-* CHECK_LESS(A, B) : Checks if A is strictly less than B
+> **Note : All code presented in this document can be found in the examples folder in this repository**
 
-#### Example Unit Tests
+To write a unit test, use the TEST() macro. This takes the test name as a parameter, then define your testing logic between the curly braces. Eagle enables you to make assertions with its built in assertion macros. An example of Eagle unit tests are shown below. 
 
-```C++
-
-TEST(T_POS_ADDITION)
+```C
+TEST(T_ADD)
 {
     int a = 5;
     int b = 4;
 
-    int result = addition(a, b);
+    int sum = addNumbers(a, b);
 
-    CHECK_EQ(result, 9);
+    CHECK_EQ(sum, 9);
 }
 
-TEST(T_NEG_ADDITION)
+TEST(T_MULT)
+{
+    int a = 6;
+    int b = -2;
+
+    int prod = multNumbers(a, b);
+
+    CHECK_TRUE(prod < 0);
+    CHECK_EQ(prod, -12);
+}
+
+TEST(T_FAIL)
 {
     int a = 5;
-    int b = -4;
+    a++;
 
-    int result = addition(a, b);
-
-    CHECK_EQ(result, 1);
+    CHECK_TRUE(a == 5);
 }
-
-TEST(T_POS_MULTIPLY)
-{
-    int a = 5;
-    int b = 4;
-
-    int result = multiplication(a, b);
-    CHECK_EQ(result, 20);
-}
-
-TEST(T_COMPOUND_TEST)
-{
-    int a = 5;
-    int b = -7;
-
-    int sum = addition(a, b);
-
-    CHECK_EQ(sum, -2);
-
-    int square = multiplication(sum, sum);
-
-    CHECK_TRUE(square > 0);
-}
-
-TEST(T_WILL_FAIL)
-{
-    int a = 5;
-    int b = 4;
-
-    CHECK_NEQ(a, b);
-    CHECK_EQ(a, b);
-    CHECK_LESS(a, b);
-    CHECK_GREATER(a, b);
-}
-
-TEST(T_WILL_PASS)
-{
-    CHECK_TRUE(true);
-}
-
-TEST(T_ANOTHER_PASS)
-{
-    CHECK_NEQ(5, 6);
-}
-
 ```
 
-### Running Unit Tests
+All unit tests in Eagle are void, so there is no need to return anything from them. Simply use the built in macros to check any conditions you need. Also note that by default tests will pass if you do not set any conditions.
 
-#### Setup
+## Assertion Macros
 
-To run tests you must give Eagle an entry point in the form of a function main(), which calls EAGLE_INIT(verbose). Passing true will set the output 
-mode to verbose, which shows individual test summaries. Passing false will minimise the information shown in the console. 
+The above example uses assertions inside the TEST() definition to check conditions within your tests. The assertions available in Eagle are defined below.
 
-#### Collections and Adding Tests
+* CHECK_TRUE(A) : Checks that A is true
+* CHECK_FALSE(A) : Checks that A is false
+* CHECK_GREATER(A, B) : Checks that A is strictly greater than B
+* CHECK_LESS(A, B) : Checks that A is strictly less than B
+* CHECK_EQ(A, B) : Checks that A is equal to B
+* CHECK_NEQ(A, B) : Checks that A is not equal to B
 
-Eagle groups tests into collections so that you can test related components together. Collections are automatically handled behind the scenes, all that you need to do is call ADD_TEST(COLLECTION_NAME, TEST_NAME) using whatever COLLECTION_NAME you like and the same TEST_NAME as you used when calling TEST() to define the test. 
+You can use as many assertions as you like within a single unit test, there is no limit.
 
-#### Running Tests
+## Running Tests
 
-There are three ways to run tests in Eagle
+Eagle requires an entry point in the form of a main() function. Below is an example of how to run the tests that you have defined. 
 
-1. RUN_ALL_TESTS() : This will run every test across every collection
-2. RUN_COLLECTION(COLLECTION_NAME) : This will run every test in COLLECTION_NAME
-3. RUN_TEST(COLLECTION_NAME, TEST_NAME) : This will run a single test in the specified collection
-
-
-```C++
+```C
 int main()
 {
-    // === SETUP ===
-    EAGLE_INIT(true);
+    EAGLE_INIT();
 
-    // === Add Tests ===
-    ADD_TEST(EXAMPLE, T_POS_ADDITION);
-    ADD_TEST(EXAMPLE, T_NEG_ADDITION);
-    ADD_TEST(EXAMPLE, T_POS_MULTIPLY);
-    ADD_TEST(EXAMPLE, T_COMPOUND_TEST);
-    ADD_TEST(EXAMPLE, T_WILL_FAIL);
-    ADD_TEST(EXAMPLE, T_WILL_PASS);
-    ADD_TEST(EXAMPLE, T_ANOTHER_PASS);
+    ADD_TEST(SIMPLE_MATH, T_ADD);
+    ADD_TEST(SIMPLE_MATH, T_FAIL);
+    ADD_TEST(SIMPLE_MATH, T_MULT);
 
-    // === RUN ===
-    RUN_ALL_TESTS();
+    RUN_ALL();
 
-    EAGLE_EXIT();
+    EAGLE_END();
 }
 ```
 
-### Example Output
+The above program will run all unit tests. An explanation can be found below.
 
-Below is the testing output from the example shown
+* EAGLE_INIT() : Performs all necessary setup tasks for Eagle to work properly
+* ADD_TEST(CollectionName, TestName) : Adds a unit test to a collection. You must use the same test name as u did when calling TEST()
+* RUN_ALL() : Runs all unit tests across all collections
+* EAGLE_END() : Frees up memory (Optional)
 
-![eagleoutput](https://user-images.githubusercontent.com/76637128/208039787-ad6fae16-1e76-4209-9b0c-390cfc9333fd.png)
+## Collections
+
+The previous section called a function ADD_TEST(CollectionName, TestName). This involved adding tests to a collection. In Eagle, Collections are a way to group your tests together. In the above example there is only one collection "SIMPLE_MATH". However, there is no limit on how many collections you can have. An example below shows how you can define multiple collections and run them individually.
+
+```C
+int main()
+{
+    EAGLE_INIT();
+    
+    ADD_TEST(COLLECTION_ONE, T_ONE);
+    ADD_TEST(COLLECTION_ONE, T_TWO);
+    ADD_TEST(COLLECTION_ONE, T_THR);
+    
+    ADD_TEST(COLLECTION_TWO, T_FOU);
+    ADD_TEST(COLLECTION_TWO, T_FIV);
+    
+    RUN_COLLECTION(COLLECTION_TWO);
+    
+    EAGLE_END();
+}
+```
+
+The above snippet has two collections, "COLLECTION_ONE" and "COLLECTION_TWO". The function RUN_COLLECTION(CollectionName) is called on COLLECTION_TWO. This will run all unit tests in COLLECTION_TWO, in this case T_FOU and T_FIV. If you wanted to run all tests across all collections you could simply just call RUN_ALL(). 
 
 
-## Comments
-
-Eagle is still being developed and improved upon.
-
-#### 
 

@@ -1,7 +1,7 @@
 #include "EagleCondition.h"
 #include "stdlib.h"
 #include "string.h"
-#include "EagleLog.h"
+#include "EagleMacros.h"
 
 typedef struct condition
 {
@@ -25,6 +25,7 @@ Condition ConditionNew(char *condition_name, int condition_value)
 
     size_t name_length = strlen(condition_name);
     c->name = (char *)calloc(name_length + 1, sizeof(char));
+    memcpy(c->name, condition_name, name_length);
 
     if (c->name == NULL)
     {
@@ -53,7 +54,7 @@ void ConditionLog(Condition c)
     {
         return;
     }
-
+    printf("  ");
     if (c->condition_value == 1)
     {
         LOG_GREEN("PASS");
@@ -62,7 +63,6 @@ void ConditionLog(Condition c)
     {
         LOG_RED("FAIL");
     }
-
     printf(" | %s\n", c->name);
 }
 

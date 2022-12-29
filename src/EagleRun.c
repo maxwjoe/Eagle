@@ -1,24 +1,30 @@
 #include "stdio.h"
-#include "EagleTest.h"
+#include "EagleCollection.h"
 
 void T_TEST(Test t)
 {
-    for (int i = 0; i < 1000; i++)
+    int x = 5;
+    for (int i = 0; i < 1000000; i++)
     {
-        i += 2;
+        x++;
     }
+    x--;
 }
 
 int main()
 {
 
-    Test t = TestNew("T_TEST_CREATE", &T_TEST);
-    TestSetCondition(t, ConditionNew("TRUE_CONDITION", 1));
-    TestSetCondition(t, ConditionNew("FALSE_CONDITION", 0));
+    Collection myCollection = CollectionNew("C_COLLECTION");
+    CollectionSetVerbose(myCollection, 1);
 
-    TestRun(t);
+    CollectionAddTest(myCollection, TestNew("T_BASIC", &T_TEST));
+    CollectionAddTest(myCollection, TestNew("T_BASI", &T_TEST));
+    CollectionAddTest(myCollection, TestNew("T_BASIiC", &T_TEST));
+    CollectionAddTest(myCollection, TestNew("T_BASICii", &T_TEST));
 
-    TestFree(t);
+    CollectionRun(myCollection);
+
+    CollectionFree(myCollection);
 
     return 0;
 }

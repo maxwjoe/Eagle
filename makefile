@@ -38,3 +38,6 @@ $(LIB_DIR)/$(STATIC_LIB_NAME).a : $(OBJ_FILES)
 $(BIN_DIR)/$(EXAMPLE_EXEC) : $(EXAMPLE_SRC)
 	mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^ -L. -l:$(LIB_DIR)/$(STATIC_LIB_NAME).a
+
+clean:
+	rm -r $(LIB_DIR) $(OBJ_DIR) $(BIN_DIR)

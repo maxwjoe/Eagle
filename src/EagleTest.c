@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "time.h"
-#include "EagleLog.h"
+#include "EagleMacros.h"
 
 // s_logResult : Log a test outcome to the console
 static void s_logResult(Test t, int result, double duration);
@@ -70,8 +70,7 @@ int TestRun(Test t)
     clock_t t0 = clock();
     t->unit_test(t);
     clock_t t1 = clock();
-    double duration = (t1 - t0) / CLOCKS_PER_SEC;
-    duration++;
+    double duration = (double)(t1 - t0) / CLOCKS_PER_SEC;
 
     // Validate Condition Table
     int hasPassed = 1;
@@ -96,13 +95,13 @@ int TestRun(Test t)
             printf("\n ==================================\n\n");
             s_logResult(t, hasPassed, duration);
             printf("\n");
+            printf("  Condition summary for failed test :\n\n");
 
             for (int i = 0; i < t->condition_count; i++)
             {
                 ConditionLog(t->condition_table[i]);
             }
 
-            printf("\n");
             printf("\n ==================================\n\n");
         }
     }
@@ -169,6 +168,7 @@ int TestFree(Test t)
 
 static void s_logResult(Test t, int result, double duration)
 {
+    printf(" ");
     if (result)
     {
         LOG_GREEN("PASSED")

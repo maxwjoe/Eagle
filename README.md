@@ -128,6 +128,6 @@ Note that each failed test has a condition breakdown where all set conditions in
 
 1. Test timeouts
 
+## Comments 
 
-
-
+Eagle has been developed on Linux, by default it builds to a static library (.a file). If you wish to use another operating system then change the build rule inside of the root makefile. In the future I will update it to build a version for each OS. 

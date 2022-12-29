@@ -92,7 +92,7 @@ int TestRun(Test t)
         }
         else
         {
-            printf("\n ==================================\n\n");
+            printf(" ==================================\n\n");
             s_logResult(t, hasPassed, duration);
             printf("\n");
             printf("  Condition summary for failed test :\n\n");
@@ -102,7 +102,7 @@ int TestRun(Test t)
                 ConditionLog(t->condition_table[i]);
             }
 
-            printf("\n ==================================\n\n");
+            printf("\n ==================================\n");
         }
     }
 

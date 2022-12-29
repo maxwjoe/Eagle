@@ -33,7 +33,7 @@ Eagle EagleNew()
     }
 
     e->collection_count = 0;
-    e->is_verbose = 0;
+    e->is_verbose = DEFAULT_VERBOSE_VALUE;
 
     return e;
 }
@@ -117,23 +117,24 @@ int EagleRunAll(Eagle e)
     time(&t);
 
     printf("\n ===== Running All Tests =====\n\n");
-    printf(" Time : %s\n", ctime(&t));
+    printf(" Time : %s", ctime(&t));
 
     int total_tests = 0;
     int total_passed = 0;
     for (int i = 0; i < e->collection_count; i++)
     {
-        printf("\n Collection : %s\n\n", CollectionGetName(e->collections[i]));
+        printf("\n -----------------------------\n");
+        printf("\n * Collection : %s *\n\n", CollectionGetName(e->collections[i]));
         int test_count = CollectionGetTestCount(e->collections[i]);
         int pass_count = CollectionRun(e->collections[i]);
-        printf("\n Summary : %d of %d tests passed\n", pass_count, test_count);
+        printf("\n * Summary : %d of %d tests passed *\n", pass_count, test_count);
 
         total_passed += pass_count;
         total_tests += test_count;
     }
 
-    printf("\n Final Summary : %d of %d tests passed\n", total_passed, total_tests);
-    printf("\n ===== End All Tests =====\n\n");
+    printf("\n ===== End All Tests =====\n");
+    printf("\n Final Summary : %d of %d tests passed\n\n", total_passed, total_tests);
 
     return 1;
 }

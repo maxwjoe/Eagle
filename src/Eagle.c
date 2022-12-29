@@ -92,12 +92,23 @@ int EagleRunCollection(Eagle e, char *collection_name)
 
     printf("\n ===== Running Collection =====\n\n");
     printf(" Name : %s\n", CollectionGetName(tgtCollection));
-    printf(" Time : %s\n", ctime(&t));
+    printf(" Time : %s", ctime(&t));
+
+    if (e->is_verbose)
+    {
+        printf("\n");
+    }
 
     int pass_count = CollectionRun(tgtCollection);
 
     int test_count = CollectionGetTestCount(tgtCollection);
-    printf("\n Summary : %d out of %d tests passed\n\n", pass_count, test_count);
+
+    if (e->is_verbose)
+    {
+        printf("\n");
+    }
+
+    printf(" Summary : %d out of %d tests passed\n\n", pass_count, test_count);
 
     printf(" ===== End Of Collection =====\n\n");
 
@@ -127,7 +138,13 @@ int EagleRunAll(Eagle e)
         printf("\n * Collection : %s *\n\n", CollectionGetName(e->collections[i]));
         int test_count = CollectionGetTestCount(e->collections[i]);
         int pass_count = CollectionRun(e->collections[i]);
-        printf("\n * Summary : %d of %d tests passed *\n", pass_count, test_count);
+
+        if (e->is_verbose)
+        {
+            printf("\n");
+        }
+
+        printf(" * Summary : %d of %d tests passed *\n", pass_count, test_count);
 
         total_passed += pass_count;
         total_tests += test_count;

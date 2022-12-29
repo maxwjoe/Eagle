@@ -27,5 +27,7 @@ TEST(T_FAIL)
     int a = 5;
     a++;
 
-    CHECK_TRUE(a == 5);
+    CHECK_TRUE(a > 0);
+    CHECK_FALSE(a % 5 == 1);
+    CHECK_EQ(a, 6);
 }

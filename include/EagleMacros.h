@@ -6,8 +6,11 @@
 
 // === ABSTRACTION ===
 
-// EAGLE_INIT() : Initialises Eagle
+// EAGLE_INIT : Initialises Eagle
 #define EAGLE_INIT() Eagle __EAGLE_PTR__ = EagleNew()
+
+// EAGLE_SET_VERBOSE : Sets whether output is detailed or not
+#define EAGLE_SET_VERBOSE(__IS_VERBOSE__) = EagleSetVerbose(__EAGLE_PTR__, __IS_VERBOSE__)
 
 // TEST : Create a new unit test
 #define TEST(__TEST_NAME__) void __TEST_NAME__(Test __EAGLE_TEST_ADT_PTR__)
@@ -21,7 +24,7 @@
 // RUN_COLLECTION : Runs all tests in a collection
 #define RUN_COLLECTION(__COLLECTION_NAME__) EagleRunCollection(__EAGLE_PTR__, #__COLLECTION_NAME__)
 
-// EAGLE_END() : Cleanup
+// EAGLE_END : Cleanup
 #define EAGLE_END() EagleFree(__EAGLE_PTR__)
 
 // === ASSERTION ===

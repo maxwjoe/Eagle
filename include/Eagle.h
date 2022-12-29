@@ -1,34 +1,35 @@
 #ifndef EAGLE_H
 #define EAGLE_H
 
-#include "EagleCollectionClass.h"
 #include "EagleTypes.h"
+#include "EagleCollection.h"
 #include "EagleMacros.h"
-#include <vector>
-#include <string>
 
-class Eagle
-{
-public:
-    Eagle();
-    Eagle(const Eagle &) = delete;
-    ~Eagle();
+#define DEFAULT_COLLECTION_ARRAY_SIZE 5
+#define COLLECTION_ARRAY_GROWTH_FACTOR 2
 
-    void SetVerbose(const bool is_verbose);
+// Eagle : ADT to interact with the Eagle Testing API
+typedef struct eagle *Eagle;
 
-    void AddTest(std::string collection_name, std::string test_name, testFuncPtr func);
+// EagleNew : Creates a new eagle instance
+Eagle EagleNew();
 
-    bool RunTest(const std::string collection_name, const std::string test_name);
-    void RunCollection(const std::string collection_name);
-    void RunAll();
+// EagleSetVerbose : Sets output level (Verbose is detailed)
+int EagleSetVerbose(Eagle e, int is_verbose);
 
-private:
-    std::vector<Collection> m_collections;
+// EagleAddCollection : Adds a new collection and returns a pointer to it
+Collection EagleAddCollection(Eagle e, char *collection_name);
 
-    int m_num_collections;
-    int m_num_tests;
+// EagleAddTest : Adds a test to a specified collection
+int EagleAddTest(Eagle e, char *collection_name, char *test_name, unitTestPtr test);
 
-    bool m_verbose;
-};
+// EagleRunAll : Runs all tests
+int EagleRunAll(Eagle e);
+
+// EagleRunCollection : Runs all tests in a given collection
+int EagleRunCollection(Eagle e, char *collection_name);
+
+// EagleFree : Frees all memory associated with an Eagle instance
+int EagleFree(Eagle e);
 
 #endif

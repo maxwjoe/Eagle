@@ -1,8 +1,8 @@
 #ifndef EAGLE_TYPES_H
 #define EAGLE_TYPES_H
 
-class Test;
+typedef struct test *Test;
 
-typedef void (*testFuncPtr)(Test *);
+typedef void (*unitTestPtr)(Test);
 
 #endif

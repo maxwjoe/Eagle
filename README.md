@@ -2,7 +2,7 @@
 
 ## About
 
-Eagle provides a simple solution for unit testing both C and C++ code. It is written entirely in C and has no dependencies outside of the C standard library. Eagle features an easy to use API and a minimal setup process making it quick and easy to test either C or C++.
+Eagle provides a simple solution for unit testing both C and C++ code. It is written entirely in C and has no dependencies outside of the C standard library. Eagle features an easy to use API and a minimal setup process making it quick and easy to start testing.
 
 ## Setup
 

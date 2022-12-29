@@ -3,6 +3,7 @@
 
 #include "EagleTypes.h"
 #include "EagleCollection.h"
+#include "EagleMacros.h"
 
 #define DEFAULT_COLLECTION_ARRAY_SIZE 5
 #define COLLECTION_ARRAY_GROWTH_FACTOR 2

@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "Eagle.h"
 
-void T_TEST(Test t)
+TEST(T_TEST)
 {
     int x = 5;
     for (int i = 0; i < 1000000; i++)
@@ -9,19 +9,21 @@ void T_TEST(Test t)
         x++;
     }
     x--;
+
+    CHECK_TRUE(5 == 5);
+    CHECK_TRUE(6 == 4);
+    CHECK_EQ(5, 5);
 }
 
 int main()
 {
-    Eagle e = EagleNew();
+    EAGLE_INIT();
 
-    EagleAddCollection(e, "COL_ONE");
-    EagleAddTest(e, "COL_ONE", "T_TEST", &T_TEST);
-    EagleAddTest(e, "COL_TWO", "T_TESTT", &T_TEST);
+    ADD_TEST(C_TESTS, T_TEST);
 
-    EagleRunAll(e);
+    RUN_ALL();
 
-    EagleFree(e);
+    EAGLE_END();
 
     return 0;
 }

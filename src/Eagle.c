@@ -99,7 +99,7 @@ int EagleRunCollection(Eagle e, char *collection_name)
 
     if (e->is_verbose)
     {
-        printf("\n");
+        line("┣","━","┫");
     }
 
     int pass_count = CollectionRun(tgtCollection);
@@ -108,14 +108,13 @@ int EagleRunCollection(Eagle e, char *collection_name)
 
     if (e->is_verbose)
     {
-        printf("\n");
+        line("┣","━","┫");
     }
 
     left("┃", "┃", " Summary : %d out of %d tests passed", pass_count, test_count);
 
-    printf(" Summary : %d out of %d tests passed\n\n", pass_count, test_count);
-
-    printf(" ===== End Of Collection =====\n\n");
+    // printf(" ===== End Of Collection =====\n\n");
+    line("┗","━","┛");
 
     return 1;
 }

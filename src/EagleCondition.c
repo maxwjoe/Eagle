@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "EagleMacros.h"
+#include "gui.h"
 
 typedef struct condition
 {
@@ -54,16 +55,14 @@ void ConditionLog(Condition c)
     {
         return;
     }
-    printf("  ");
     if (c->condition_value == 1)
     {
-        LOG_GREEN("PASS");
+        left("┃", "┃", "   "GREEN"PASSED"NORM" | %s", c->name);
     }
     else
     {
-        LOG_RED("FAIL");
+        left("┃", "┃", "   "RED"FAIL"NORM" | %s", c->name);
     }
-    printf(" | %s\n", c->name);
 }
 
 int ConditionFree(Condition c)

@@ -93,17 +93,16 @@ int TestRun(Test t)
         }
         else
         {
-            printf(" ==================================\n\n");
+            line("┃"," ","┃");
             s_logResult(t, hasPassed, duration);
-            printf("\n");
-            printf("  Condition summary for failed test :\n\n");
+            left("┃", "┃", "   Condition summary for failed test:");
 
             for (int i = 0; i < t->condition_count; i++)
             {
                 ConditionLog(t->condition_table[i]);
             }
 
-            printf("\n ==================================\n");
+            line("┃"," ","┃");
         }
     }
 
@@ -169,17 +168,9 @@ int TestFree(Test t)
 
 static void s_logResult(Test t, int result, double duration)
 {
-    printf(" ");
-    if (result)
-    {
-        LOG_GREEN("PASSED")
+    if(result) {
+        left("┃", "┃", " "GREEN"PASSED"NORM" | %s | ( %fms )", t->name, duration);
+    } else {
+        left("┃", "┃", " "RED"FAILED"NORM" | %s | ( %fms )", t->name, duration);
     }
-    else
-    {
-        LOG_RED("FAILED");
-    }
-    printf(GREEN"PASSED"NORM" | %s | ( %fms )\n", t->name, duration);
-
-    left("┃", "┃", GREEN"PASSED"NORM" | %s | ( %fms )", t->name, duration);
-
 }

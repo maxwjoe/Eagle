@@ -20,11 +20,12 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 EXAMPLE_EXEC = example
 EXAMPLE_SRC = $(SRC_DIR)/EagleTest.c
-STATIC_LIB_NAME = libEagle
+STATIC_LIB_NAME = libEagleStatic
+DYNAMIC_LIB_NAME = libEagle
 
 # === RULES ===
 
-all : $(LIB_DIR)/$(STATIC_LIB_NAME).a
+all : $(LIB_DIR)/$(STATIC_LIB_NAME).a $(LIB_DIR)/$(DYNAMIC_LIB_NAME).so
 
 # Build Objects
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
@@ -36,6 +37,11 @@ $(LIB_DIR)/$(STATIC_LIB_NAME).a : $(OBJ_FILES)
 	mkdir -p $(LIB_DIR)
 	ar rcs $(LIB_DIR)/$(STATIC_LIB_NAME).a $(OBJ_FILES)
 	rm -r $(OBJ_DIR)
+
+# Build Dynamic Library
+$(LIB_DIR)/$(DYNAMIC_LIB_NAME).so : $(SRC_FILES)
+	mkdir -p $(LIB_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -fPIC -shared -o $@ $(SRC_FILES) -lc
 
 clean:
 	rm -r $(LIB_DIR) $(OBJ_DIR) $(BIN_DIR)

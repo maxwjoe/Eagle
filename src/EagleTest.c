@@ -3,6 +3,7 @@
 #include "string.h"
 #include "time.h"
 #include "EagleMacros.h"
+#include "gui.h"
 
 // s_logResult : Log a test outcome to the console
 static void s_logResult(Test t, int result, double duration);
@@ -177,5 +178,8 @@ static void s_logResult(Test t, int result, double duration)
     {
         LOG_RED("FAILED");
     }
-    printf(" | %s | ( %fms )\n", t->name, duration);
+    printf(GREEN"PASSED"NORM" | %s | ( %fms )\n", t->name, duration);
+
+    left("┃", "┃", GREEN"PASSED"NORM" | %s | ( %fms )", t->name, duration);
+
 }

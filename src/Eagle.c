@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "time.h"
+#include "gui.h"
 
 typedef struct eagle
 {
@@ -90,9 +91,11 @@ int EagleRunCollection(Eagle e, char *collection_name)
     time_t t;
     time(&t);
 
-    printf("\n ===== Running Collection =====\n\n");
-    printf(" Name : %s\n", CollectionGetName(tgtCollection));
-    printf(" Time : %s", ctime(&t));
+    line("┏","━","┓");
+    cent("┃", "┃", "Running Collection");
+    line("┣","━","┫");
+    left("┃", "┃", " Name: %s", CollectionGetName(tgtCollection));
+    left("┃", "┃", " Time: %s", strtok(ctime(&t), "\n"));
 
     if (e->is_verbose)
     {
@@ -107,6 +110,8 @@ int EagleRunCollection(Eagle e, char *collection_name)
     {
         printf("\n");
     }
+
+    left("┃", "┃", " Summary : %d out of %d tests passed", pass_count, test_count);
 
     printf(" Summary : %d out of %d tests passed\n\n", pass_count, test_count);
 

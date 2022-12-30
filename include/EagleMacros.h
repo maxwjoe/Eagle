@@ -1,5 +1,5 @@
 #ifndef EAGLE_LOG_H
-#define EAGLE_LOG
+#define EAGLE_LOG_H
 
 #include "Eagle.h"
 #include "stdio.h"

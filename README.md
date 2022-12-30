@@ -120,7 +120,7 @@ An example verbose output for running the SIMPLE_MATH collection can be seen bel
 
 ![image](https://user-images.githubusercontent.com/76637128/210017352-bc61a2a2-7bfd-4380-94a8-139cc702c205.png)
 
-Note that each failed test has a condition breakdown where all set conditions inside the unit test are displayed with their status, either pass or fail. In this case (a % 5 == 1) happens to be true, meaning that the assertion that its false will fail. Showing this breakdown in combination with the passed conditions can make debugging your code easier. If you wish to hide these outputs, call EAGLE_SET_VERBOSE(0) inside of main(), this will generate the following simple output for the same collection of tests.
+Note that each failed test has a condition breakdown where all set conditions inside the unit test are displayed with their status, either pass or fail. In this case (a % 5 == 1) happens to be true, meaning that the assertion that it's false will fail. Showing this breakdown in combination with the passed conditions can make debugging your code easier. If you wish to hide these outputs, call EAGLE_SET_VERBOSE(0) inside of main(), this will generate the following simple output for the same collection of tests.
 
 ![image](https://user-images.githubusercontent.com/76637128/210017801-d7330235-fb74-4483-b0b2-c5220ba85c01.png)
 

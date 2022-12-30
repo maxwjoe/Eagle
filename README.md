@@ -6,7 +6,7 @@ Eagle provides a simple solution for unit testing both C and C++ code. It is wri
 
 ## Setup
 
-To use Eagle you must include "Eagle.h". Ensure that you have built the library, this can be done by simply typing "make" in the root of this repository after cloning which will generate a Library that you can link against. The current makefile is setup to use gcc, if you would like to use C++ you can simply change this to whatever compiler you require.
+To use Eagle you must include "Eagle.h". Ensure that you have built the library, this can be done by simply typing "make" in the root of this repository after cloning which will generate two Libraries that you can link against. One is static (.a), the other is dynamic (.so). The current makefile is setup to use gcc, if you would like to use C++ you can simply change this to whatever compiler you require.
 
 ## Writing a Unit Test
 
@@ -130,4 +130,4 @@ Note that each failed test has a condition breakdown where all set conditions in
 
 ## Comments 
 
-Eagle has been developed on Linux, by default it builds to a static library (.a file). If you wish to use another operating system then change the build rule inside of the root makefile. In the future I will update it to build a version for each OS. 
+Eagle has been developed on Linux, by default it builds to a static library (.a file) and a dynamic library (.so file). If you wish to use another operating system then you wil need to change the build rule inside of the root makefile. In the future I will update it to build a version for each OS. 

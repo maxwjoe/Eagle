@@ -57,11 +57,11 @@ void ConditionLog(Condition c)
     }
     if (c->condition_value == 1)
     {
-        left("┃", "┃", "   "GREEN"PASSED"NORM" | %s", c->name);
+        left("┃", "", "┃", "    "GREEN"P"NORM" | %s", c->name);
     }
     else
     {
-        left("┃", "┃", "   "RED"FAIL"NORM" | %s", c->name);
+        left("┃", "", "┃", "    "RED"F"NORM" | %s", c->name);
     }
 }
 

@@ -92,10 +92,10 @@ int EagleRunCollection(Eagle e, char *collection_name)
     time(&t);
 
     line("┏","━","┓");
-    cent("┃", "┃", "Running Collection");
+    cent("┃"," ","┃", "Running Collection");
     line("┣","━","┫");
-    left("┃", "┃", " Name: %s", CollectionGetName(tgtCollection));
-    left("┃", "┃", " Time: %s", strtok(ctime(&t), "\n"));
+    left("┃"," ","┃", " Name: %s", CollectionGetName(tgtCollection));
+    left("┃"," ","┃", " Time: %s", strtok(ctime(&t), "\n"));
 
     if (e->is_verbose)
     {
@@ -103,17 +103,10 @@ int EagleRunCollection(Eagle e, char *collection_name)
     }
 
     int pass_count = CollectionRun(tgtCollection);
-
     int test_count = CollectionGetTestCount(tgtCollection);
 
-    if (e->is_verbose)
-    {
-        line("┣","━","┫");
-    }
-
-    left("┃", "┃", " Summary : %d out of %d tests passed", pass_count, test_count);
-
-    // printf(" ===== End Of Collection =====\n\n");
+    line("┣","━","┫");
+    left("┃"," ","┃", " Summary : %d out of %d tests passed", pass_count, test_count);
     line("┗","━","┛");
 
     return 1;
@@ -131,31 +124,43 @@ int EagleRunAll(Eagle e)
     time_t t;
     time(&t);
 
-    printf("\n ===== Running All Tests =====\n\n");
-    printf(" Time : %s", ctime(&t));
+    line("┏","━","┓");
+    cent("┃"," ","┃", "Running All Tests");
+    line("┣","━","┫");
+    left("┃"," ","┃", " Time: %s", strtok(ctime(&t), "\n"));
 
     int total_tests = 0;
     int total_passed = 0;
     for (int i = 0; i < e->collection_count; i++)
     {
-        printf("\n -----------------------------\n");
-        printf("\n * Collection : %s *\n\n", CollectionGetName(e->collections[i]));
+        if (i == 0) {
+            line("╭","─","╮");
+        } else {
+            line("┠","─","┨");
+        }
+        left("┃","","┃", " Collection: %s", CollectionGetName(e->collections[i]));
+        line("┠","─","┨");
         int test_count = CollectionGetTestCount(e->collections[i]);
         int pass_count = CollectionRun(e->collections[i]);
 
         if (e->is_verbose)
         {
-            printf("\n");
+            line("┠","─","┨");
         }
-
-        printf(" * Summary : %d of %d tests passed *\n", pass_count, test_count);
+        left("┃","","┃", " Summary : %d out of %d tests passed", pass_count, test_count);
+        if (i == e->collection_count-1)
+        {
+            line("╰","─","╯");
+        }
 
         total_passed += pass_count;
         total_tests += test_count;
     }
 
-    printf("\n ===== End All Tests =====\n");
-    printf("\n Final Summary : %d of %d tests passed\n\n", total_passed, total_tests);
+    cent("┃"," ","┃", "End All Tests");
+    line("┣","━","┫");
+    left("┃"," ","┃", " Final Summary : %d out of %d tests passed", total_passed, total_tests);
+    line("┗","━","┛");
 
     return 1;
 }

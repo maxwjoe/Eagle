@@ -95,7 +95,7 @@ int TestRun(Test t)
         {
             line("┃"," ","┃");
             s_logResult(t, hasPassed, duration);
-            left("┃", "┃", "   Condition summary for failed test:");
+            left("┃", "", "┃", "   Condition summary for failed test:");
 
             for (int i = 0; i < t->condition_count; i++)
             {
@@ -169,8 +169,8 @@ int TestFree(Test t)
 static void s_logResult(Test t, int result, double duration)
 {
     if(result) {
-        left("┃", "┃", " "GREEN"PASSED"NORM" | %s | ( %fms )", t->name, duration);
+        left("┃", "", "┃", " "GREEN"PASS"NORM" | %s | ( %fms )", t->name, duration);
     } else {
-        left("┃", "┃", " "RED"FAILED"NORM" | %s | ( %fms )", t->name, duration);
+        left("┃", "", "┃", " "RED"FAIL"NORM" | %s | ( %fms )", t->name, duration);
     }
 }

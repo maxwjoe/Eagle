@@ -1,6 +1,9 @@
 #ifndef GUI_H
 #define GUI_H
 
+#define MAX_ARGS 31
+#define MAX_STR_LEN 512
+
 #define NORM   "\x1B[0m"
 #define SELECT "\x1B[7m"
 #define BOLD   "\x1B[1m"
@@ -15,13 +18,14 @@
 
 #define EXITING_PROGRAM -1
 
-void space_cent(char *print, int contents, int sides);
-void space_side(char *print, int contents, int sides);
+#define JUSTIFY_LEFT -1
+#define JUSTIFY_CENT 0
+#define JUSTIFY_RIGHT 1
 
 void line(char *lSide, char *print, char *rSide);
 
-void cent(char *lSide, char *rSide, const char *fmt, ...);
-void left(char *lSide, char *rSide, const char *fmt, ...);
-void right(char *lSide, char *rSide, const char *fmt, ...);
+void cent(char *lSide, char *fill, char *rSide, const char *fmt, ...);
+void left(char *lSide, char *fill, char *rSide, const char *fmt, ...);
+void right(char *lSide, char *fill, char *rSide, const char *fmt, ...);
 
 #endif

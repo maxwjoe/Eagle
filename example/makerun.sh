@@ -1,5 +1,7 @@
+set -e
+
 cd ..
 make >/dev/null
 cd example
-make 
+make >/dev/null
 ./example.o

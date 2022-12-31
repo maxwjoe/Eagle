@@ -13,5 +13,7 @@ int main()
 
     RUN_COLLECTION(SIMPLE_MATH);
 
+    RUN_ALL();
+
     EAGLE_END();
 }
